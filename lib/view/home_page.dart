@@ -1,4 +1,3 @@
-// Import untuk widget Flutter dan komponen-komponen yang dibutuhkan
 import 'package:flutter/material.dart';
 import 'package:responsi_mobile/view/detailphone.dart';
 import '../model/phone.dart';
@@ -6,7 +5,6 @@ import '../service/phone_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
-// Widget halaman utama yang menampilkan daftar smartphone
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();

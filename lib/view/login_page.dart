@@ -1,28 +1,23 @@
-// Import untuk widget Flutter dan shared preferences untuk menyimpan status login
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Widget halaman login yang dapat berubah state
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Controller untuk mengelola input username dan password
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // Status loading dan pesan error
   bool _isLoading = false;
   String? _error;
 
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus(); // Cek status login saat halaman dibuka
+    _checkLoginStatus();
   }
 
-  // Fungsi untuk memeriksa apakah user sudah login sebelumnya
   Future<void> _checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedin') ?? false;
@@ -31,17 +26,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  // Fungsi untuk memproses login
   Future<void> _login() async {
     setState(() {
       _isLoading = true;
       _error = null;
     });
     var tempContext = Navigator.of(context);
-    // Validasi username dan password (hardcoded untuk demo)
     if (_usernameController.text == '123220015' &&
         _passwordController.text == '123456') {
-      // Simpan status login ke shared preferences
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isLoggedin', true);
       tempContext.pushReplacementNamed('/home');
@@ -63,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Field input username
               const SizedBox(height: 48),
               TextField(
                 controller: _usernameController,
@@ -75,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 16),
-              // Field input password (tersembunyi)
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -87,11 +77,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 24),
-              // Tampilkan pesan error jika ada
               if (_error != null)
                 Text(_error!, style: TextStyle(color: Colors.red)),
               SizedBox(height: 8),
-              // Tombol login dengan indikator loading
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
