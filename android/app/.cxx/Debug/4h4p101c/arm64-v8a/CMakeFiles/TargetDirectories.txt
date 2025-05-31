@@ -1,0 +1,2 @@
+E:/mobile/smartphone_app/smartphone_app/android/app/.cxx/Debug/4h4p101c/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/mobile/smartphone_app/smartphone_app/android/app/.cxx/Debug/4h4p101c/arm64-v8a/CMakeFiles/rebuild_cache.dir
