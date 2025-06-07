@@ -41,11 +41,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => PokemonProvider()),
         ChangeNotifierProvider(create: (ctx) => PurchaseHistoryProvider()),
         ChangeNotifierProvider(create: (ctx) => CurrencyProvider()),
-        ChangeNotifierProvider(
-          create: (_) {
-            final provider = FavoritesProvider();
-            provider.loadFavorites(); // Load favorites when app starts
-            return provider;
+        ChangeNotifierProxyProvider<AuthProvider, FavoritesProvider>(
+          create: (_) => FavoritesProvider(),
+          update: (_, auth, favorites) {
+            if (favorites == null) {
+              favorites = FavoritesProvider();
+            }
+            auth.initializeFavoritesProvider(favorites);
+            return favorites;
           },
         ),
       ],
@@ -73,7 +76,6 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const HomeScreen(),
           '/cart': (context) => const CartScreen(),
           '/purchase-history': (context) {
-            // Get userId from AuthProvider
             final userId =
                 Provider.of<AuthProvider>(
                   context,

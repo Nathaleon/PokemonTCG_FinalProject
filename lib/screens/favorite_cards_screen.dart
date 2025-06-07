@@ -26,11 +26,6 @@ class FavoriteCardsScreen extends StatelessWidget {
             );
           }
 
-          // Set current user if not already set
-          if (authProvider.userId != null) {
-            favoritesProvider.setCurrentUser(authProvider.userId!);
-          }
-
           final favoriteCards = favoritesProvider.favoriteCards;
 
           if (favoriteCards.isEmpty) {

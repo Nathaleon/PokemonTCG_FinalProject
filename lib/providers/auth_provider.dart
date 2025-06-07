@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import '../database/database_helper.dart';
+import 'favorites_provider.dart';
 
 class AuthProvider extends ChangeNotifier {
   final _storage = const FlutterSecureStorage();
@@ -11,10 +12,19 @@ class AuthProvider extends ChangeNotifier {
   bool _isAuthenticated = false;
   String? _username;
   int? _userId;
+  FavoritesProvider? _favoritesProvider;
 
   bool get isAuthenticated => _isAuthenticated;
   String? get username => _username;
   int? get userId => _userId;
+
+  void initializeFavoritesProvider(FavoritesProvider favoritesProvider) {
+    _favoritesProvider = favoritesProvider;
+    // If user is already logged in, initialize favorites
+    if (_userId != null) {
+      _favoritesProvider!.setCurrentUser(_userId!);
+    }
+  }
 
   // Hash password using SHA-256
   String hashPassword(String password) {
@@ -61,6 +71,13 @@ class AuthProvider extends ChangeNotifier {
       _username = username;
       _userId = user['id'];
       _isAuthenticated = true;
+
+      // Initialize favorites for the logged in user
+      if (_favoritesProvider != null) {
+        await _favoritesProvider!.setCurrentUser(user['id']);
+        await _favoritesProvider!.loadFavorites(); // Explicitly load favorites
+      }
+
       notifyListeners();
     } catch (e) {
       throw Exception('Invalid username or password');
@@ -125,6 +142,7 @@ class AuthProvider extends ChangeNotifier {
     _isAuthenticated = false;
     _username = null;
     _userId = null;
+    _favoritesProvider?.clear(); // Use safe call operator
     notifyListeners();
   }
 
@@ -138,6 +156,13 @@ class AuthProvider extends ChangeNotifier {
       _username = username;
       _userId = int.parse(userIdStr);
       _isAuthenticated = true;
+
+      // Initialize favorites for the logged in user
+      if (_favoritesProvider != null) {
+        await _favoritesProvider!.setCurrentUser(_userId!);
+        await _favoritesProvider!.loadFavorites(); // Explicitly load favorites
+      }
+
       notifyListeners();
     }
   }
