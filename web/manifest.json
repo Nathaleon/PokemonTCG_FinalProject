@@ -1,6 +1,6 @@
 {
-    "name": "smartphone_app",
-    "short_name": "smartphone_app",
+    "name": "Pokemon TCG",
+    "short_name": "Pokemon TCG",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

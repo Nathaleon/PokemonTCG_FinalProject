@@ -1,0 +1,2 @@
+E:/mobile/pokemontcg/pokemonapp/android/app/.cxx/Debug/5o304a1f/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/mobile/pokemontcg/pokemonapp/android/app/.cxx/Debug/5o304a1f/armeabi-v7a/CMakeFiles/rebuild_cache.dir
