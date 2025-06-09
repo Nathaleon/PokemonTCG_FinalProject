@@ -75,11 +75,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   String _getTimezoneDisplay(String timezone) {
-    String abbr;
-    String? gmtOffset;
+    String gmtOffset = '';
+    String abbr = '';
 
     // Get GMT offset
     try {
+      final now = DateTime.now();
       final location = TimeService.getLocation(timezone);
       if (location != null) {
         final offset = location.currentTimeZone.offset ~/ 3600000;
@@ -92,9 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {
       print('Error getting timezone offset: $e');
+      return timezone;
     }
 
-    // Get timezone abbreviation
+    // Get timezone abbreviation for Indonesia
     switch (timezone) {
       case 'Asia/Jakarta':
         abbr = 'WIB';
@@ -106,11 +108,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         abbr = 'WIT';
         break;
       default:
-        return gmtOffset ?? timezone.split('/').last.replaceAll('_', ' ');
+        return gmtOffset;
     }
 
     // For Indonesian timezones, show both abbreviation and GMT offset
-    return "$abbr (${gmtOffset ?? ''})";
+    return "$abbr ($gmtOffset)";
   }
 
   String _getLocalTime(DateTime tournamentDate, String tournamentTimezone) {
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       fromTimezone: tournamentTimezone,
       toTimezone: _userTimezone ?? 'UTC',
     );
-    return format.format(localTime);
+    return '${format.format(localTime)} ${_getTimezoneDisplay(_userTimezone ?? 'UTC')}';
   }
 
   Future<void> _pickImage() async {
@@ -368,14 +370,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           Text(tournament['tournament_location']),
                           if (location != null)
                             Text('Venue: ${location.venue}'),
+                          if (location != null)
+                            Text(
+                              'Local Time: ${_getLocalTime(tournamentDate, location.timezone)}',
+                              style: const TextStyle(color: Colors.blue),
+                            ),
                           Text(
                             'Tournament Time: ${DateFormat('EEEE, d MMMM y - HH:mm').format(tournamentDate)} ${_getTimezoneDisplay(location?.timezone ?? 'UTC')}',
                           ),
-                          if (location != null)
-                            Text(
-                              'Local Time (${_getTimezoneDisplay(_userTimezone ?? 'UTC')}): ${_getLocalTime(tournamentDate, location.timezone)}',
-                              style: const TextStyle(color: Colors.blue),
-                            ),
                           Text(
                             'Status: ${tournament['status']}',
                             style: TextStyle(

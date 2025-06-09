@@ -243,11 +243,11 @@ class _HomeContentState extends State<HomeContent> {
     final List<Map<String, dynamic>> carouselItems = [
       {
         'image': 'assets/images/banner5.png',
-        'route': 1, // Index for PokeCard in bottom navigation
+        'route': 0, // Index for PokeCard in bottom navigation
       },
       {
         'image': 'assets/images/banner4.png',
-        'route': 2, // Index for Shop in bottom navigation
+        'route': 3, // Index for Shop in bottom navigation
       },
       {
         'image': 'assets/images/banner1.png',

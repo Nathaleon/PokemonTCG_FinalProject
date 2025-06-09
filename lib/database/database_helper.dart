@@ -35,7 +35,6 @@ class DatabaseHelper {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    // Create Users table with profile_image column
     await db.execute('''
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +50,6 @@ class DatabaseHelper {
       )
     ''');
 
-    // Create Favorite Cards table
     await db.execute('''
       CREATE TABLE favorite_cards (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -68,7 +66,6 @@ class DatabaseHelper {
       )
     ''');
 
-    // Create Tournament Registrations table with all required fields
     await db.execute('''
       CREATE TABLE tournament_registrations (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -82,7 +79,6 @@ class DatabaseHelper {
       )
     ''');
 
-    // Create Purchase History table
     await db.execute('''
       CREATE TABLE purchase_history (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -94,7 +90,6 @@ class DatabaseHelper {
       )
     ''');
 
-    // Create Purchase Items table
     await db.execute('''
       CREATE TABLE purchase_items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -110,14 +105,12 @@ class DatabaseHelper {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Drop all existing tables and recreate them
     await db.execute('DROP TABLE IF EXISTS purchase_items');
     await db.execute('DROP TABLE IF EXISTS purchase_history');
     await db.execute('DROP TABLE IF EXISTS tournament_registrations');
     await db.execute('DROP TABLE IF EXISTS favorite_cards');
     await db.execute('DROP TABLE IF EXISTS users');
 
-    // Recreate all tables
     await _onCreate(db, newVersion);
   }
 
